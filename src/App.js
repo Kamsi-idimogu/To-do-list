@@ -1,19 +1,31 @@
-import React, {useState, useReducer} from "react";
+import React, {useState, useReducer, useEffect} from "react";
 import { MdClear } from "react-icons/md";
 import Reducer from "./Reducer";
 import Modal from "./Modal";
 
 function App() { 
+  // const [list, dispatch] = useReducer(Reducer,defaultList);
+
+  const initialState = JSON.parse(localStorage.getItem('list.items')) || [];
+  // const tempList = initialState;
+  // const tempList = useState(initialState);
+  // localStorage.clear()
 
   const defaultList = 
   {
-    items: [],
+    // items: [],
+    items: initialState,
     hasModal: false,
     modalContent: ''
   }
+  // const initialState = JSON.parse(localStorage.getItem('list.items')) || [];
 
   const [list, dispatch] = useReducer(Reducer,defaultList);
   const [listEntry, setlistEntry] = useState('');
+
+  // useEffect(() => {
+  //   localStorage.setItem('list.items', JSON.stringify(list.items));
+  // }, list.items);
 
   function handleSubmit(e){
     e.preventDefault();
@@ -22,6 +34,8 @@ function App() {
       const newEntry = { id: new Date().getTime().toString(), content: listEntry }
       dispatch({type: 'ADD_ITEM' , payload: newEntry })
       setlistEntry('')
+console.log(list.items)
+
     }else{
       dispatch({type: 'NO_ITEM'})
     }
